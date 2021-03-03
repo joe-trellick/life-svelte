@@ -78,8 +78,18 @@
 		updateContent();
 	});
 
+	function boardPositionForScreenPosition(x, y) {
+		const col = Math.floor(x / (canvas.clientWidth / columns));
+		const row = Math.floor(y / (canvas.clientHeight / rows));
+		return {col: col, row: row};
+	}
+
 	function click(event) {
-		console.log("Event ${event}");
+		const boardPos = boardPositionForScreenPosition(event.offsetX, event.offsetY);
+		console.log(`Event ${event}: (${event.offsetX}, ${event.offsetY}) => (${boardPos.col}, ${boardPos.row})`);
+	
+		grid[boardPos.col][boardPos.row] = !grid[boardPos.col][boardPos.row];
+		updateContent();
 	}
 </script>
 

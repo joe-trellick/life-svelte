@@ -12,7 +12,7 @@
 		// lifeBoard.columns = 16;
 		lifeBoard.grid[0][0] = true;
 		lifeBoard.grid[0][11] = false;
-	//	lifeBoard.updateContent();
+		lifeBoard.updateContent();
 	});
 </script>
 
