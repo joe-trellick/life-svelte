@@ -77,9 +77,13 @@
 
 		updateContent();
 	});
+
+	function click(event) {
+		console.log("Event ${event}");
+	}
 </script>
 
-<canvas bind:this={canvas}/>
+<canvas bind:this={canvas} on:click={click}/>
 
 <style>
     canvas {
