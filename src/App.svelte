@@ -14,10 +14,16 @@
 		lifeBoard.grid[0][11] = false;
 		lifeBoard.updateContent();
 	});
+
+	function step() {
+		console.log("Step here");
+	}
 </script>
 
 <main>
 	<LifeBoard rows=32 columns=32 bind:this={lifeBoard} />
+	<br/>
+	<button on:click={step}>Step</button>
 	<h1>Hello {name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 </main>
