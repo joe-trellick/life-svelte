@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 
 	let lifeBoard;
+	let running = false;
 
 	onMount(() => {
 		console.log("LB: " + lifeBoard.grid);
@@ -12,6 +13,13 @@
 		// lifeBoard.columns = 16;
 		lifeBoard.grid[0][0] = true;
 		lifeBoard.grid[0][5] = false;
+
+		// here comes the GLIDER
+		lifeBoard.grid[2][3] = true;
+		lifeBoard.grid[3][4] = true;
+		lifeBoard.grid[1][5] = true;
+		lifeBoard.grid[2][5] = true;
+		lifeBoard.grid[3][5] = true;
 		lifeBoard.updateContent();
 	});
 
@@ -26,7 +34,6 @@
 	function advanceState(grid) {
 		let cols = grid.length;
 		let rows = grid[0].length;
-		console.log(`grid (${cols} x ${rows})`);
 
 		let changes = [];
 
@@ -43,17 +50,11 @@
 				neighbors += gridStateAt(grid, col - 1, row) ? 1 : 0;
 
 				const current = grid[col][row];
-				let next = current;
 				if (!current && neighbors == 3) {
-					// grid[col][row] = true;
 					changes.push([col, row, true]);
-					next = true;
 				} else if (current && !(neighbors == 2 || neighbors == 3)) {
-					// grid[col][row] = false;
 					changes.push([col, row, false]);
-					next = false;
 				}
-				console.log(`(${col}, ${row}) is ${current} with ${neighbors} neighbors => ${next}`);
 			}
 		}
 
@@ -67,12 +68,21 @@
 		advanceState(lifeBoard.grid);
 		lifeBoard.updateContent();
 	}
+
+	function startStop() {
+		running = !running;
+	}
 </script>
 
 <main>
 	<LifeBoard rows=16 columns=16 bind:this={lifeBoard} />
 	<br/>
 	<button on:click={step}>Step</button>
+{#if !running}
+	<button on:click={startStop}>Run</button>
+{:else}
+	<button on:click={startStop}>Stop</button>
+{/if}
 	<h1>Hello {name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 </main>
