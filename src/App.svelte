@@ -1,5 +1,4 @@
 <script>
-	export let name;
 	import LifeBoard from './components/LifeBoard.svelte'
 	import { onMount } from 'svelte';
 
@@ -8,10 +7,6 @@
 	let timerId = null;
 
 	onMount(() => {
-		console.log("LB: " + lifeBoard.grid);
-		// Doesn't work without accessors?
-		// lifeBoard.rows = 16;
-		// lifeBoard.columns = 16;
 		lifeBoard.grid[0][0] = true;
 		lifeBoard.grid[0][5] = false;
 
@@ -65,7 +60,6 @@
 	}
 
 	function step() {
-		console.log("Step here");
 		advanceState(lifeBoard.grid);
 		lifeBoard.updateContent();
 	}
@@ -91,8 +85,6 @@
 {:else}
 	<button on:click={startStop}>Stop</button>
 {/if}
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 </main>
 
 <style>
@@ -101,13 +93,6 @@
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
 	}
 
 	@media (min-width: 640px) {

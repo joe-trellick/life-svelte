@@ -6,15 +6,12 @@
     export let rows = 16;
     export let columns = 16;
 	export const grid = Array(Number(columns)).fill(false).map(element => Array(Number(rows)).fill(false));
-	// console.log("dims " + rows + " " + columns + " " + typeof(columns));
-	// console.log("Goo + " + grid);
+
 	grid[5][9] = true;
 	grid[0][11] = true;
 
 	function drawGrid(canvas, grid) {
 		let ctx = canvas.getContext("2d");
-		// console.log("boo + " + canvas + " (" + canvas.clientWidth + "," + canvas.clientHeight + ") ");
-		// console.log("Goo + " + grid);
 
 		// Clear existing content
 		ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
@@ -86,7 +83,6 @@
 
 	function click(event) {
 		const boardPos = boardPositionForScreenPosition(event.offsetX, event.offsetY);
-		console.log(`Event ${event}: (${event.offsetX}, ${event.offsetY}) => (${boardPos.col}, ${boardPos.row})`);
 	
 		grid[boardPos.col][boardPos.row] = !grid[boardPos.col][boardPos.row];
 		updateContent();
