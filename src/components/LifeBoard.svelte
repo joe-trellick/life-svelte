@@ -66,6 +66,7 @@
 
 	export function updateContent() {
 		drawGrid(canvas, grid, rows, columns);
+		getContentBytes();
 	}
 
 	onMount(() => {
@@ -86,6 +87,22 @@
 	
 		grid[boardPos.col][boardPos.row] = !grid[boardPos.col][boardPos.row];
 		updateContent();
+	}
+
+	function getContentBytes() {
+		let bytes = new Uint8ClampedArray(Math.ceil((rows * columns) / 8.0));
+		for (let row = 0; row < rows; row++) {
+			for (let col = 0; col < columns; col++) {
+				let boardPos = (row * columns) + col;
+				let byteIndex = Math.floor(boardPos / 8);
+				let bitIndex = boardPos % 8;
+
+				if (grid[col][row]) {
+					bytes[byteIndex] |= 1 << 7 - bitIndex;
+				}
+			}
+		}
+		console.log(bytes);
 	}
 </script>
 
