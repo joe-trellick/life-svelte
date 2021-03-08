@@ -5,6 +5,7 @@
 
 	let lifeBoard;
 	let running = false;
+	let timerId = null;
 
 	onMount(() => {
 		console.log("LB: " + lifeBoard.grid);
@@ -71,14 +72,21 @@
 
 	function startStop() {
 		running = !running;
+
+		if (running) {
+			timerId = setInterval(step, 500);
+		} else {
+			clearInterval(timerId);
+			timerId = null;
+		}
 	}
 </script>
 
 <main>
 	<LifeBoard rows=16 columns=16 bind:this={lifeBoard} />
 	<br/>
-	<button on:click={step}>Step</button>
 {#if !running}
+	<button on:click={step}>Step</button>
 	<button on:click={startStop}>Run</button>
 {:else}
 	<button on:click={startStop}>Stop</button>
