@@ -5,6 +5,7 @@
 	let lifeBoard;
 	let running = false;
 	let timerId = null;
+	let boardStateString = "";
 
 	onMount(() => {
 		lifeBoard.grid[0][0] = true;
@@ -77,7 +78,7 @@
 </script>
 
 <main>
-	<LifeBoard rows=16 columns=16 bind:this={lifeBoard} />
+	<LifeBoard rows=16 columns=16 bind:this={lifeBoard} bind:stateString={boardStateString} />
 	<br/>
 {#if !running}
 	<button on:click={step}>Step</button>
@@ -85,6 +86,9 @@
 {:else}
 	<button on:click={startStop}>Stop</button>
 {/if}
+
+	<br/><br/>
+	State: <pre>{boardStateString}</pre>
 </main>
 
 <style>

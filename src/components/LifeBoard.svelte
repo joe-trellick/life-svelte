@@ -6,6 +6,8 @@
     export let rows = 16;
     export let columns = 16;
 	export const grid = Array(Number(columns)).fill(false).map(element => Array(Number(rows)).fill(false));
+	export let gridBytes = [];
+	export let stateString = null;
 
 	grid[5][9] = true;
 	grid[0][11] = true;
@@ -67,6 +69,7 @@
 	export function updateContent() {
 		drawGrid(canvas, grid, rows, columns);
 		getContentBytes();
+		stateString = getStateString();
 	}
 
 	onMount(() => {
@@ -103,7 +106,22 @@
 			}
 		}
 		console.log(bytes);
+		gridBytes = bytes;
 	}
+
+	function getStateString() {
+		let bytes = gridBytes;
+		let c = columns;
+		let r = rows;
+
+		let hexString = bytes.map((byte) => {
+			return byte.toString(16).padStart(2, '0');
+		}).join('');
+		let boardString = `life:${c}x${r},${hexString}`
+		console.log(`boardString = ${boardString}`);
+		return boardString;
+	}
+
 </script>
 
 <canvas bind:this={canvas} on:click={click}/>
