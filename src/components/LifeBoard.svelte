@@ -43,7 +43,8 @@
 	}
 
 	function drawDot(canvas, x, y) {
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext
+("2d");
 		ctx.beginPath();
 		let boxWidth = canvas.clientWidth / columns;
 		let boxHeight = canvas.clientHeight / rows;
@@ -58,10 +59,12 @@
 
 	function drawDots(canvas) {
 		for (var col = 0; col < columns; col++) {
-			for (var row = 0; row < rows; row++) {
+			for (var row = 0; row <
+ rows; row++) {
 				if (grid[col][row]) {
 					drawDot(canvas, col, row);
 				}
+
 			}
 		}
 	}
@@ -75,6 +78,7 @@
 	onMount(() => {
 		canvas.width = canvas.clientWidth;
 		canvas.height = canvas.clientHeight;
+
 
 		updateContent();
 	});
@@ -120,6 +124,24 @@
 		let boardString = `life:${c}x${r},${hexString}`
 		console.log(`boardString = ${boardString}`);
 		return boardString;
+	}
+
+	function parseStateString(string) {
+		console.log(`parsing... ${string}`);
+		const regex = /life:(\d+)x(\d+),([0-9a-fA-F]*)$/g;
+
+		let matches = regex.exec(string);
+		console.log(`matches: ${matches}`);
+		if (matches && matches.length == 4) {
+			console.log(`really ${matches.slice(1)}`);
+
+			// Now actually parse the hex into the board state
+		}
+	}
+
+	// Trigger when state string is set
+	$: {
+		parseStateString(stateString);
 	}
 
 </script>

@@ -89,6 +89,7 @@
 
 	<br/><br/>
 	State: <pre>{boardStateString}</pre>
+	<input bind:value={boardStateString}/>
 </main>
 
 <style>
@@ -97,6 +98,12 @@
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
+	}
+
+	input {
+		font-family: monospace;
+		text-align: center;
+		width: 400px;
 	}
 
 	@media (min-width: 640px) {
