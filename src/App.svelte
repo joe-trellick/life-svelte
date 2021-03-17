@@ -88,7 +88,7 @@
 {/if}
 
 	<br/><br/>
-	State: <pre>{boardStateString}</pre>
+	State:
 	<input bind:value={boardStateString}/>
 </main>
 
@@ -103,7 +103,7 @@
 	input {
 		font-family: monospace;
 		text-align: center;
-		width: 400px;
+		width: 600px;
 	}
 
 	@media (min-width: 640px) {

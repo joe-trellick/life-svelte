@@ -94,10 +94,10 @@
 	
 		grid[boardPos.col][boardPos.row] = !grid[boardPos.col][boardPos.row];
 		updateContent();
-	}
+	}8
 
 	function getContentBytes() {
-		let bytes = new Uint8ClampedArray(Math.ceil((rows * columns) / 8.0));
+		let bytes = new Uint8ClampedArray(Math.ceil((columns * rows) / 8.0));
 		for (let row = 0; row < rows; row++) {
 			for (let col = 0; col < columns; col++) {
 				let boardPos = (row * columns) + col;
@@ -113,16 +113,27 @@
 		gridBytes = bytes;
 	}
 
+	function setContentBytes(bytes) {
+		for (let row = 0; row < rows; row++) {
+			for (let col = 0; col < columns; col++) {
+				let boardPos = (row * columns) + col;
+				let byteIndex = Math.floor(boardPos / 8);
+				let bitIndex = boardPos % 8;
+
+				let bitValue = bytes[byteIndex] & 1 << (7 - bitIndex);
+				grid[col][row] = bitValue > 0;
+			}
+		}
+		updateContent();
+	}
+
 	function getStateString() {
 		let bytes = gridBytes;
 		let c = columns;
 		let r = rows;
 
-		let hexString = bytes.map((byte) => {
-			return byte.toString(16).padStart(2, '0');
-		}).join('');
+		let hexString = Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
 		let boardString = `life:${c}x${r},${hexString}`
-		console.log(`boardString = ${boardString}`);
 		return boardString;
 	}
 
@@ -131,11 +142,22 @@
 		const regex = /life:(\d+)x(\d+),([0-9a-fA-F]*)$/g;
 
 		let matches = regex.exec(string);
-		console.log(`matches: ${matches}`);
 		if (matches && matches.length == 4) {
-			console.log(`really ${matches.slice(1)}`);
+			let newCols = matches[1];
+			let newRows = matches[2];
+			let hexBytes = matches[3];
+			let newBytes = new Uint8ClampedArray(Math.ceil(hexBytes.length / 2));
+			for (var i = 0; i < newBytes.length; i++) {
+				newBytes[i] = parseInt(hexBytes.substr(i * 2, 2), 16);
+			}
 
-			// Now actually parse the hex into the board state
+			if (((newCols * newRows) / 8) <= newBytes.length) {
+				// TODO: Set the grid size from the parsed values
+				// Now actually parse the hex into the board state
+				setContentBytes(newBytes);
+			} else {
+				console.log(`Not enough bytes for given size`);
+			}
 		}
 	}
 
