@@ -102,7 +102,7 @@
 
 	input {
 		font-family: monospace;
-		text-align: center;
+		text-align: left;
 		width: 600px;
 	}
 

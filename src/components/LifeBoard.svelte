@@ -1,3 +1,4 @@
+<svelte:options accessors/>
 <script>
 	import { onMount } from 'svelte';
 
@@ -5,12 +6,18 @@
 
     export let rows = 16;
     export let columns = 16;
-	export const grid = Array(Number(columns)).fill(false).map(element => Array(Number(rows)).fill(false));
+	export let grid = Array(Number(columns)).fill(false).map(element => Array(Number(rows)).fill(false));
 	export let gridBytes = [];
 	export let stateString = null;
 
+	allocateGridForSize();
+
 	grid[5][9] = true;
 	grid[0][11] = true;
+
+	function allocateGridForSize() {
+		grid = Array(Number(columns)).fill(false).map(element => Array(Number(rows)).fill(false));
+	}
 
 	function drawGrid(canvas, grid) {
 		let ctx = canvas.getContext("2d");
@@ -109,7 +116,6 @@
 				}
 			}
 		}
-		console.log(bytes);
 		gridBytes = bytes;
 	}
 
@@ -120,8 +126,12 @@
 				let byteIndex = Math.floor(boardPos / 8);
 				let bitIndex = boardPos % 8;
 
-				let bitValue = bytes[byteIndex] & 1 << (7 - bitIndex);
-				grid[col][row] = bitValue > 0;
+				if (byteIndex < bytes.length) {
+					let bitValue = bytes[byteIndex] & 1 << (7 - bitIndex);
+					grid[col][row] = bitValue > 0;
+				} else {
+					grid[col][row] = false;
+				}
 			}
 		}
 		updateContent();
@@ -138,7 +148,6 @@
 	}
 
 	function parseStateString(string) {
-		console.log(`parsing... ${string}`);
 		const regex = /life:(\d+)x(\d+),([0-9a-fA-F]*)$/g;
 
 		let matches = regex.exec(string);
@@ -151,12 +160,15 @@
 				newBytes[i] = parseInt(hexBytes.substr(i * 2, 2), 16);
 			}
 
-			if (((newCols * newRows) / 8) <= newBytes.length) {
-				// TODO: Set the grid size from the parsed values
-				// Now actually parse the hex into the board state
+			if (newCols > 0 && newRows > 0 && newBytes.length > 0) {
+				if (columns != newCols || rows != newRows) {
+					columns = newCols;
+					rows = newRows;
+					allocateGridForSize();
+				}
 				setContentBytes(newBytes);
 			} else {
-				console.log(`Not enough bytes for given size`);
+				console.log(`Didn't parse valid board data from string ${string}`);
 			}
 		}
 	}
