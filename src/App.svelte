@@ -8,9 +8,7 @@
 	let boardStateString = "";
 
 	onMount(() => {
-		lifeBoard.grid[0][0] = true;
-		lifeBoard.grid[0][5] = false;
-
+		// Set some initial board contents
 		// here comes the GLIDER
 		lifeBoard.grid[2][3] = true;
 		lifeBoard.grid[3][4] = true;
