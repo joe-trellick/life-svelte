@@ -15,7 +15,7 @@
 		return Array(Number(columns)).fill(false).map(element => Array(Number(rows)).fill(false));
 	}
 
-	function drawGrid(canvas, grid) {
+	function drawGrid(canvas, grid, columns, rows) {
 		let ctx = canvas.getContext("2d");
 
 		// Clear existing content
@@ -40,19 +40,19 @@
 			ctx.stroke();
 		}
 
-		drawDots(canvas);
+		drawDots(canvas, columns, rows);
 
 		ctx.translate(-0.5, -0.5);
 	}
 
-	function drawDot(canvas, x, y) {
+	function drawDot(canvas, col, row, columns, rows) {
 		let ctx = canvas.getContext
 ("2d");
 		ctx.beginPath();
 		let boxWidth = canvas.clientWidth / columns;
 		let boxHeight = canvas.clientHeight / rows;
-		let centerX = boxWidth * (x + 0.5);
-		let centerY = boxHeight * (y + 0.5);
+		let centerX = boxWidth * (col + 0.5);
+		let centerY = boxHeight * (row + 0.5);
 		let radius = Math.min(boxWidth, boxHeight) / 2 - 2;
 
 		ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
@@ -60,12 +60,12 @@
 		ctx.stroke();
 	}
 
-	function drawDots(canvas) {
+	function drawDots(canvas, columns, rows) {
 		for (var col = 0; col < columns; col++) {
 			for (var row = 0; row <
  rows; row++) {
 				if (grid[col][row]) {
-					drawDot(canvas, col, row);
+					drawDot(canvas, col, row, columns, rows);
 				}
 
 			}
@@ -73,7 +73,7 @@
 	}
 
 	export function updateContent() {
-		drawGrid(canvas, grid, rows, columns);
+		drawGrid(canvas, grid, columns, rows);
 		getContentBytes();
 		stateString = getStateString();
 	}
