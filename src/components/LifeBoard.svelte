@@ -1,3 +1,4 @@
+<!-- This is needed to change the grid array. -->
 <svelte:options accessors/>
 <script>
 	import { onMount } from 'svelte';
@@ -6,17 +7,12 @@
 
     export let rows = 16;
     export let columns = 16;
-	export let grid = Array(Number(columns)).fill(false).map(element => Array(Number(rows)).fill(false));
+	export let grid = gridForSize(columns, rows);
 	export let gridBytes = [];
 	export let stateString = null;
 
-	allocateGridForSize();
-
-	grid[5][9] = true;
-	grid[0][11] = true;
-
-	function allocateGridForSize() {
-		grid = Array(Number(columns)).fill(false).map(element => Array(Number(rows)).fill(false));
+	function gridForSize(columns, rows) {
+		return Array(Number(columns)).fill(false).map(element => Array(Number(rows)).fill(false));
 	}
 
 	function drawGrid(canvas, grid) {
@@ -164,7 +160,7 @@
 				if (columns != newCols || rows != newRows) {
 					columns = newCols;
 					rows = newRows;
-					allocateGridForSize();
+					grid = gridForSize(newCols, newRows);
 				}
 				setContentBytes(newBytes);
 			} else {
