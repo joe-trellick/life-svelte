@@ -74,7 +74,7 @@
 
 	export function updateContent() {
 		drawGrid(canvas, grid, columns, rows);
-		getContentBytes();
+		gridBytes = getContentBytes();
 		stateString = getStateString();
 	}
 
@@ -112,7 +112,7 @@
 				}
 			}
 		}
-		gridBytes = bytes;
+		return bytes;
 	}
 
 	function setContentBytes(bytes) {
