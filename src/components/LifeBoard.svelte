@@ -97,7 +97,7 @@
 	
 		grid[boardPos.col][boardPos.row] = !grid[boardPos.col][boardPos.row];
 		updateContent();
-	}8
+	}
 
 	function getContentBytes() {
 		let bytes = new Uint8ClampedArray(Math.ceil((columns * rows) / 8.0));
