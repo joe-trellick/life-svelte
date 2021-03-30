@@ -9,13 +9,12 @@
 
 	onMount(() => {
 		// Set some initial board contents
-		// here comes the GLIDER
-		lifeBoard.grid[2][3] = true;
-		lifeBoard.grid[3][4] = true;
-		lifeBoard.grid[1][5] = true;
-		lifeBoard.grid[2][5] = true;
-		lifeBoard.grid[3][5] = true;
-		lifeBoard.updateContent();
+		// You can either set [column][row] coordinates on the grid like:
+		// lifeBoard.grid[2][3] = true;
+		// lifeBoard.updateContent();
+		//
+		// or just dump in a string like so:
+		boardStateString = "life:16x16,00002000100070000000000000000000000000000000a4844a8a4a8a44e40000";
 	});
 
 	function gridStateAt(grid, col, row) {
