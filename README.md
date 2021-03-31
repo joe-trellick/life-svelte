@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/joehughes/life-svelte)
+
 # Game of Life in Svelte
 
 This is a very basic implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) that I made partly as a testbed for other experiments, and also to brush up on [Svelte](https://svelte.dev/) and other web technologies.
